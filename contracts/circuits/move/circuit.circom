@@ -6,7 +6,7 @@ include "circomlib/poseidon.circom";
 
 template Maze() {
     
-    // Public Inputs
+    // Public Inputs are the x and y coordinates and the move input which is as follows:
     /*
     0 - up
     1 - down
@@ -20,13 +20,13 @@ template Maze() {
     signal output pubHash;
 
     var maze[25] = getMaze();
-    var pos = x + 5*(4 - y);
+    var pos = x + 5*(4 - y);        // function to get index in 1 dimensional array from x and y coordinates.
 
     component c[4];
     component j;
     component m;
     
-    if(move == 0){
+    if(move == 0){                  // generating constraints to check if a move is valid
         j = LessThan(4);
         j.in[0] <== y;
         j.in[1] <== 4;
@@ -41,7 +41,7 @@ template Maze() {
         c[1].in[1] <== 0;
         c[1].out === 1;
         var pos2 = x + 5*(4 - (y - 1));
-        maze[pos2] === 0;
+        maze[pos2] === 0;                   // if 0 is present, move is valid as it is not interfering with the maze.
     }
 
     if(move == 2){
@@ -62,7 +62,7 @@ template Maze() {
         maze[pos4] === 0;
     }
 
-    component poseidon = Poseidon(3);
+    component poseidon = Poseidon(3);       // constraint to check whether the public hash matches with the hash generated from coordinates.
     poseidon.inputs[0] <== x;
     poseidon.inputs[1] <== y;
     poseidon.inputs[2] <== move;

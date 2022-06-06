@@ -11,4 +11,4 @@ function getMaze() {
     return maze;
 } 
 
-// created sample 5x5 maze for testing
+// created sample 5x5 maze for testing, 1's represent maze blocks and 0's represent free space.
