@@ -67,3 +67,5 @@ template Maze() {
     hash === pubHash;
 
 }
+
+component main = Main();
