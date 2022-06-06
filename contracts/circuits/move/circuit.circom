@@ -1,8 +1,8 @@
-pragma circom 2.0.0;
+pragma circom 2.0.3;
 
-include "../functions/getMaze.circom"
-include "../../../node_modules/circomlib/circuits/comparators.circom";
-include "../../../node_modules/circomlib/circuits/poseidon.circom"
+include "getMaze.circom";
+include "circomlib/comparators.circom";
+include "circomlib/poseidon.circom";
 
 template Maze() {
     
@@ -13,9 +13,9 @@ template Maze() {
     2 - right
     3 - left
     */
-    signal private input move;
-    signal private input x;
-    signal private input y;
+    signal input move;
+    signal input x;
+    signal input y;
     signal input hash;
     signal output pubHash;
 
@@ -23,17 +23,20 @@ template Maze() {
     var pos = x + 5*(4 - y);
 
     component c[4];
+    component j;
+    component m;
+    
     if(move == 0){
-        component c[0] = LessThan(32);
-        c[0].in[0] <== y;
-        c[0].in[1] <== 4;
-        c[0].out === 1;
+        j = LessThan(4);
+        j.in[0] <== y;
+        j.in[1] <== 4;
+        j.out === 1;
         var pos1 = x + 5*(4 - (y + 1));
         maze[pos1] === 0;
     }
 
     if(move == 1){
-        component c[1] = GreaterThan(32);
+        c[1] = GreaterThan(32);
         c[1].in[0] <== y;
         c[1].in[1] <== 0;
         c[1].out === 1;
@@ -42,16 +45,16 @@ template Maze() {
     }
 
     if(move == 2){
-        component c[2] = LessThan(32);
-        c[2].in[0] <== x;
-        c[2].in[1] <== 4;
-        c[2].out === 1;
+        m = LessThan(32);
+        m.in[0] <== x;
+        m.in[1] <== 4;
+        m.out === 1;
         var pos3 = (x + 1) + 5*(4 - y);
         maze[pos3] === 0;
     }
 
     if(move == 3){
-        component c[3] = GreaterThan(32);
+        c[3] = GreaterThan(32);
         c[3].in[0] <== x;
         c[3].in[1] <== 0;
         c[3].out === 1;
@@ -68,4 +71,4 @@ template Maze() {
 
 }
 
-component main = Main();
+component main{public [hash]} = Maze();

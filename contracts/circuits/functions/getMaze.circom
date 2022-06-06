@@ -1,4 +1,4 @@
-pragma circom 2.0.0;
+pragma circom 2.0.3;
 
 function getMaze() {
     var maze[25] = [
@@ -6,7 +6,7 @@ function getMaze() {
         1, 1, 0, 0, 1,
         0, 1, 0, 0, 0,
         0, 0, 1, 1, 0,
-        0, 0, 0, 0, 0,
+        0, 0, 0, 0, 0
     ];
     return maze;
 } 
